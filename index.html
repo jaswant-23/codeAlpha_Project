@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .completed {
+      background-color: #d1fae5;
+      color: #065f46;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">To-Do List</h1>
+    <div class="mb-4">
+      <input 
+        id="taskInput" 
+        type="text" 
+        placeholder="Add a new task" 
+        class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-300">
+    </div>
+    <button 
+      onclick="addTask()" 
+      class="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300">
+      Add Task
+    </button>
+    <ul id="taskList" class="mt-6 space-y-2">
+      <!-- Tasks will appear here dynamically -->
+    </ul>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      if (taskText === '') {
+        alert('Please enter a task.');
+        return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'flex items-center justify-between p-2 bg-gray-200 rounded-md';
+
+      const taskSpan = document.createElement('span');
+      taskSpan.textContent = taskText;
+      taskSpan.className = 'text-gray-800';
+
+      const completeButton = document.createElement('button');
+      completeButton.textContent = 'Complete';
+      completeButton.className = 'text-green-500 hover:text-green-700 mr-2';
+
+      // Mark task as completed on button click
+      completeButton.addEventListener('click', () => {
+        taskSpan.classList.add('completed');
+        taskSpan.textContent = `${taskText} (Completed)`;
+      });
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'text-red-500 hover:text-red-700';
+
+      // Delete task on button click
+      deleteButton.addEventListener('click', () => {
+        taskList.removeChild(li);
+      });
+
+      li.appendChild(taskSpan);
+      li.appendChild(completeButton);
+      li.appendChild(deleteButton);
+      taskList.appendChild(li);
+
+      taskInput.value = '';
+    }
+  </script>
+</body>
+</html>
